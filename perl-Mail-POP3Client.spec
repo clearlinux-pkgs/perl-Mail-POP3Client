@@ -4,14 +4,15 @@
 #
 Name     : perl-Mail-POP3Client
 Version  : 2.19
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/S/SD/SDOWD/Mail-POP3Client-2.19.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/S/SD/SDOWD/Mail-POP3Client-2.19.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libm/libmail-pop3client-perl/libmail-pop3client-perl_2.19-1.debian.tar.xz
 Summary  : 'Perl 5 module to talk to a POP3 (RFC1939) server'
 Group    : Development/Tools
-License  : Artistic-1.0-Perl
-Requires: perl-Mail-POP3Client-man
+License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
+Requires: perl-Mail-POP3Client-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 WHAT IS IT?
@@ -20,19 +21,28 @@ object-oriented interface to a POP3 server.  It can be used to write
 perl-based biff clients, mail readers, or whatever.  See the inline
 POD doco for more details.  (perldoc Mail::POP3Client)
 
-%package man
-Summary: man components for the perl-Mail-POP3Client package.
+%package dev
+Summary: dev components for the perl-Mail-POP3Client package.
+Group: Development
+Provides: perl-Mail-POP3Client-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Mail-POP3Client package.
+
+
+%package license
+Summary: license components for the perl-Mail-POP3Client package.
 Group: Default
 
-%description man
-man components for the perl-Mail-POP3Client package.
+%description license
+license components for the perl-Mail-POP3Client package.
 
 
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Mail-POP3Client-2.19
-mkdir -p %{_topdir}/BUILD/Mail-POP3Client-2.19/deblicense/
+cd ..
+%setup -q -T -D -n Mail-POP3Client-2.19 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Mail-POP3Client-2.19/deblicense/
 
 %build
@@ -57,10 +67,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Mail-POP3Client
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Mail-POP3Client/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -69,8 +81,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Mail/POP3Client.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Mail/POP3Client.pm
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Mail::POP3Client.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Mail-POP3Client/deblicense_copyright
