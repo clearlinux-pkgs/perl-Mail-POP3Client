@@ -4,7 +4,7 @@
 #
 Name     : perl-Mail-POP3Client
 Version  : 2.19
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/S/SD/SDOWD/Mail-POP3Client-2.19.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/S/SD/SDOWD/Mail-POP3Client-2.19.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libm/libmail-pop3client-perl/libmail-pop3client-perl_2.19-1.debian.tar.xz
@@ -25,6 +25,7 @@ POD doco for more details.  (perldoc Mail::POP3Client)
 Summary: dev components for the perl-Mail-POP3Client package.
 Group: Development
 Provides: perl-Mail-POP3Client-devel = %{version}-%{release}
+Requires: perl-Mail-POP3Client = %{version}-%{release}
 
 %description dev
 dev components for the perl-Mail-POP3Client package.
@@ -43,7 +44,7 @@ license components for the perl-Mail-POP3Client package.
 cd ..
 %setup -q -T -D -n Mail-POP3Client-2.19 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Mail-POP3Client-2.19/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Mail-POP3Client-2.19/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
