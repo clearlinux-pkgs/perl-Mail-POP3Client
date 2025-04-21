@@ -7,7 +7,7 @@
 #
 Name     : perl-Mail-POP3Client
 Version  : 2.21
-Release  : 26
+Release  : 27
 URL      : https://cpan.metacpan.org/authors/id/S/SD/SDOWD/Mail-POP3Client-2.21.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/S/SD/SDOWD/Mail-POP3Client-2.21.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libm/libmail-pop3client-perl/libmail-pop3client-perl_2.19-1.debian.tar.xz
